@@ -22,6 +22,7 @@ public class TireController : MonoBehaviour
 
     private void TireSpringForce(Rigidbody carRigidBody, Transform tireTransform)
     {
+        /*
         float springStrength = 5;
         float springDamping = 2;
         float suspensionRestDistance = 2;
@@ -36,6 +37,6 @@ public class TireController : MonoBehaviour
         float yVelocity = Vector3.Dot(springDirection, tireVelocity);
         float yForce = (offset * springStrength) - (yVelocity * springDamping);
 
-        carRigidBody.AddForceAtPosition(springDirection* yForce, tireTransform.position);
+        carRigidBody.AddForceAtPosition(springDirection* yForce, tireTransform.position);*/
     }
 }
