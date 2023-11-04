@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TireController : MonoBehaviour
 {
@@ -19,6 +20,10 @@ public class TireController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
 
         // 3 Forces on each tire
         // Y: Damped spring
@@ -36,7 +41,7 @@ public class TireController : MonoBehaviour
             if (rayDidHit)
             {
                 Debug.DrawRay(wheels[i].transform.position, -wheels[i].transform.up * tireRayHit.distance);
-                float tireFriction = 0.3f;
+                float tireFriction = 0.8f;
                 TireSpringForce(carRigidBody, wheels[i], tireRayHit);
                 TireSteerForce(carRigidBody, wheels[i], tireFriction);
                 if (i < 2)
@@ -80,7 +85,7 @@ public class TireController : MonoBehaviour
         Vector3 accelDir = wheel.transform.forward;
         float carSpeed = Vector3.Dot(transform.forward, carRigidBody.velocity);
         float topSpeed = 70;
-        float torque = 4;
+        float torque = 6;
 
         if (accelerationInput != 0.0f && carSpeed < topSpeed)
         {
