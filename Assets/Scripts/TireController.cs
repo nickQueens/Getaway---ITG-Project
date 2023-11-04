@@ -10,7 +10,6 @@ public class TireController : MonoBehaviour
     private Rigidbody carRigidBody;
     private float accelerationInput;
     private float suspensionRestDistance = 0.6f;
-    public Component wheelMesh;
 
     void Start()
     {
@@ -37,10 +36,13 @@ public class TireController : MonoBehaviour
             if (rayDidHit)
             {
                 Debug.DrawRay(wheels[i].transform.position, -wheels[i].transform.up * tireRayHit.distance);
-                Debug.Log("Wheels touching ground " + tireRayHit.distance);
+                float tireFriction = 0.3f;
                 TireSpringForce(carRigidBody, wheels[i], tireRayHit);
-                TireSteerForce(carRigidBody, wheels[i], 0.9f);
-                TireForwardForce(carRigidBody, wheels[i]);
+                TireSteerForce(carRigidBody, wheels[i], tireFriction);
+                if (i < 2)
+                {
+                    TireForwardForce(carRigidBody, wheels[i]);
+                }
             }
         }
     }
@@ -63,17 +65,14 @@ public class TireController : MonoBehaviour
 
     private void TireSteerForce(Rigidbody carRigidBody, Component wheel, float tireGripFactor)
     {
-        // Need to rotate wheels separately
         float tireMass = 0.05f;
         Vector3 steeringDirection = wheel.transform.right;
-
         Vector3 tireWorldVelocity = carRigidBody.GetPointVelocity(wheel.transform.position);
 
         float steeringVelocity = Vector3.Dot(steeringDirection, tireWorldVelocity);
-
         float desiredVelocityChange = -steeringVelocity * tireGripFactor;
         float desiredAcceleration = desiredVelocityChange / Time.fixedDeltaTime;
-        carRigidBody.AddForceAtPosition(steeringDirection * tireMass * desiredAcceleration, wheel.transform.position);
+        carRigidBody.AddForceAtPosition(desiredAcceleration * tireMass * steeringDirection, wheel.transform.position);
     }
 
     private void TireForwardForce(Rigidbody carRigidBody, Component wheel)
@@ -81,11 +80,11 @@ public class TireController : MonoBehaviour
         Vector3 accelDir = wheel.transform.forward;
         float carSpeed = Vector3.Dot(transform.forward, carRigidBody.velocity);
         float topSpeed = 70;
-        Debug.Log(accelerationInput);
+        float torque = 4;
 
         if (accelerationInput != 0.0f && carSpeed < topSpeed)
         {
-            carRigidBody.AddForceAtPosition(accelDir * 2 * accelerationInput, wheel.transform.position);
+            carRigidBody.AddForceAtPosition(accelDir * torque * accelerationInput, wheel.transform.position);
         }
     }
 }
