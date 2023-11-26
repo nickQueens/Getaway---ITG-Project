@@ -71,7 +71,7 @@ public class TireController : MonoBehaviour
     private void TireSteerForce(Rigidbody carRigidBody, Component wheel, float tireGripFactor)
     {
         float tireMass = 0.05f;
-        Vector3 steeringDirection = wheel.transform.right;
+        Vector3 steeringDirection = wheel.transform.forward;
         Vector3 tireWorldVelocity = carRigidBody.GetPointVelocity(wheel.transform.position);
 
         float steeringVelocity = Vector3.Dot(steeringDirection, tireWorldVelocity);
@@ -82,13 +82,14 @@ public class TireController : MonoBehaviour
 
     private void TireForwardForce(Rigidbody carRigidBody, Component wheel)
     {
-        Vector3 accelDir = wheel.transform.forward;
+        Vector3 accelDir = wheel.transform.right;
         float carSpeed = Vector3.Dot(transform.forward, carRigidBody.velocity);
         float topSpeed = 70;
         float torque = 6;
 
         if (accelerationInput != 0.0f && carSpeed < topSpeed)
         {
+            Debug.DrawRay(wheel.transform.position, accelDir * torque * accelerationInput);
             carRigidBody.AddForceAtPosition(accelDir * torque * accelerationInput, wheel.transform.position);
         }
     }
