@@ -9,7 +9,12 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.position = new Vector3(followObject.transform.position.x - 5, cameraHeight, followObject.transform.position.z - 5);
+        transform.position = new Vector3
+        (
+            followObject.transform.position.x,
+            followObject.transform.position.y + cameraHeight,
+            followObject.transform.position.z - 10
+        );
         transform.LookAt(followObject.transform); 
     }
 }
