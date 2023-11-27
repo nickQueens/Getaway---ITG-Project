@@ -17,13 +17,17 @@ public class TireController : MonoBehaviour
         carRigidBody = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
 
         // 3 Forces on each tire
         // Y: Damped spring
