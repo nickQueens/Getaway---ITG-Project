@@ -1,15 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TireController : MonoBehaviour
 {
     // Start is called before the first frame update
+    [SerializeField] private GameObject AINavAgent = null;
     public Component[] wheels;
     private Rigidbody carRigidBody;
-    private float accelerationInput;
+    private float accelerationInput = 0;
     private float suspensionRestDistance = 0.6f;
 
     void Start()
@@ -33,7 +35,17 @@ public class TireController : MonoBehaviour
         // Y: Damped spring
         // X: Anti-slipping
         // Z: Acceleration
-        accelerationInput = Input.GetAxis("Vertical");
+        if (AINavAgent == null)
+        {
+            accelerationInput = Input.GetAxis("Vertical");
+        } else
+        {
+            Vector3 forward = transform.TransformDirection(Vector3.forward);
+            Vector3 toOther = (AINavAgent.transform.position - transform.position).normalized;
+            float dotProduct = Vector3.Dot(forward, toOther);
+            accelerationInput = Mathf.Clamp(dotProduct, -0.2f, 0.6f);
+            //Debug.Log(accelerationInput);
+        }
 
         for (int i = 0; i < wheels.Length; i++)
         {
