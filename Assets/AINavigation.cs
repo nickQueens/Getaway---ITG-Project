@@ -8,12 +8,12 @@ public class AINavigation : MonoBehaviour
     NavMeshAgent agent;
     private float maxDistanceFromParent = 50;
     [SerializeField] GameObject targetObject;
-    [SerializeField] GameObject parentObject;
     public Vector3 directionToTarget;
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        targetObject = GameObject.Find("Player Car");
     }
 
     // Update is called once per frame

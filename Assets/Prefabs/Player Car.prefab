@@ -4843,7 +4843,7 @@ GameObject:
   - component: {fileID: 2851576129547573982}
   - component: {fileID: 7012266866559582982}
   m_Layer: 0
-  m_Name: Car
+  m_Name: Player Car
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4905,6 +4905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc5593de2ca0d643a566b75afe7a111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AINavAgent: {fileID: 0}
   wheels:
   - {fileID: 5664867679748573390}
   - {fileID: 5664867679748593350}
@@ -5153,7 +5154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 475332, guid: f7cb15c5a7c4bdd498370bd90d1d77bd, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 475332, guid: f7cb15c5a7c4bdd498370bd90d1d77bd, type: 3}
       propertyPath: m_LocalRotation.y
@@ -5161,7 +5162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 475332, guid: f7cb15c5a7c4bdd498370bd90d1d77bd, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 475332, guid: f7cb15c5a7c4bdd498370bd90d1d77bd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5234,6 +5235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a048b38ae4d934dac8639320cae2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AINavAgent: {fileID: 0}
 --- !u!1 &5664867679748860922 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 160038, guid: f7cb15c5a7c4bdd498370bd90d1d77bd, type: 3}
@@ -5299,3 +5301,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a048b38ae4d934dac8639320cae2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AINavAgent: {fileID: 0}
