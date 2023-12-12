@@ -13,7 +13,8 @@ public class TireController : MonoBehaviour
     private Rigidbody carRigidBody;
     private float accelerationInput = 0;
     private float suspensionRestDistance = 0.6f;
-
+    private bool wheelsOnGround = false;
+    private float rotationSpeed = 90;
     void Start()
     {
         carRigidBody = GetComponent<Rigidbody>();
@@ -46,9 +47,14 @@ public class TireController : MonoBehaviour
             accelerationInput = Mathf.Clamp(dotProduct, -0.2f, 0.6f);
             //Debug.Log(accelerationInput);
         }
-
+        wheelsOnGround = false;
         for (int i = 0; i < wheels.Length; i++)
         {
+            float tireFriction = 0.8f;
+            if (Input.GetKey(KeyCode.Space))
+            {
+                tireFriction = 0.2f;
+            }
             float springMaxLength = 1;
             float wheelRadius = 0.3f;
             Ray tireRay = new(wheels[i].transform.position, -wheels[i].transform.up);
@@ -57,14 +63,24 @@ public class TireController : MonoBehaviour
             if (rayDidHit)
             {
                 Debug.DrawRay(wheels[i].transform.position, -wheels[i].transform.up * tireRayHit.distance);
-                float tireFriction = 0.8f;
                 TireSpringForce(carRigidBody, wheels[i], tireRayHit);
                 TireSteerForce(carRigidBody, wheels[i], tireFriction);
                 if (i < 2)
                 {
                     TireForwardForce(carRigidBody, wheels[i]);
                 }
+                wheelsOnGround = true;
             }
+        }
+
+        if (!wheelsOnGround)
+        {
+            Vector3 rotation = new Vector3(
+                Input.GetAxis("Vertical") * rotationSpeed * Time.deltaTime,
+                Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime,
+                0
+            );
+            transform.Rotate(rotation);
         }
     }
 

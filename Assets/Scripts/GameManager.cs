@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text timeText;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private GameObject player;
+    [SerializeField] private Transform endZone;
     private bool levelComplete = false;
     private int minScore = 3000;
     // Start is called before the first frame update
@@ -28,11 +29,11 @@ public class GameManager : MonoBehaviour
             timeText.text = "Time: " + (System.Math.Round(timeElapsed, 2)).ToString();
         }
 
-        if (player.transform.position.z > 18)
+        if ((Vector3.Distance(endZone.position, player.transform.position) < 15) && !levelComplete)
         {
             levelComplete = true;
             int score = (int)(minScore + Mathf.Round(10000*Mathf.Max((120 - timeElapsed)/120, 0)));
-            scoreText.text = "Level complete!<br>Score: " + score.ToString();
+            scoreText.text = "Level complete!";//<br>Score: " + score.ToString();
         }
     }
 }
