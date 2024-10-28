@@ -92,12 +92,37 @@ public class TireController : NetworkBehaviour
             accelerationInput = Input.GetAxis("Vertical");
             horizontalInput = Input.GetAxis("Horizontal");
             handbrakeOn = Input.GetKey(KeyCode.Space);
-        } else
+        } else if (IsServer)
         {
+            // AI Input
+            // Acceleration
             Vector3 forward = transform.TransformDirection(Vector3.forward);
             Vector3 toOther = (AINavAgent.transform.position - transform.position).normalized;
             float dotProduct = Vector3.Dot(forward, toOther);
             accelerationInput = Mathf.Clamp(dotProduct, -0.2f, 0.6f);
+
+            // Horizontal
+            // Get the vector from the AI car to the player car
+            Vector3 toPlayer = AINavAgent.transform.position - transform.position;
+
+            // Normalize the vectors
+            toPlayer = toPlayer.normalized;
+            Vector3 aiCarForward = transform.forward.normalized;
+            Vector3 aiCarLeft = -transform.right.normalized;
+
+            // Take the dot product of the vectors
+            float dotForward = Vector3.Dot(toPlayer, aiCarForward);
+            float dotLeft = Vector3.Dot(toPlayer, aiCarLeft);
+
+            // Return a value between -1 and 1 based on the dot product
+            if (dotForward > 0) // Player car is in front of AI car
+            {
+                horizontalInput = dotLeft; // Return the dot product with the left vector
+            }
+            else // Player car is behind AI car
+            {
+                horizontalInput = -dotLeft; // Return the negative dot product with the left vector
+            }
         }
 
         MovePlayerServerRpc(accelerationInput, horizontalInput, handbrakeOn);
