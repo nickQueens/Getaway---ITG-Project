@@ -4842,6 +4842,7 @@ GameObject:
   - component: {fileID: 7643757107987093636}
   - component: {fileID: 2851576129547573982}
   - component: {fileID: 7012266866559582982}
+  - component: {fileID: -1831727479580863354}
   m_Layer: 0
   m_Name: Player Car
   m_TagString: Untagged
@@ -5116,6 +5117,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   engineAudio: {fileID: 2851576129547573982}
+--- !u!114 &-1831727479580863354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5225192729261515431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &5664867679749003996
 PrefabInstance:
   m_ObjectHideFlags: 0
