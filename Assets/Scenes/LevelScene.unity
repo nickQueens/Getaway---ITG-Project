@@ -5944,9 +5944,13 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7233171081696897905, guid: 9eb2dc9424b8508419e91cccbce49c98, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8655275833145867154, guid: 9eb2dc9424b8508419e91cccbce49c98, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8655275833145867154, guid: 9eb2dc9424b8508419e91cccbce49c98, type: 3}
       propertyPath: followObject

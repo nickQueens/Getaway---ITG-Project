@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public GameObject followObject;
+    public Transform followTransform;
     public float cameraHeight;
 
     void LateUpdate()
     {
         transform.position = new Vector3
         (
-            followObject.transform.position.x,
-            followObject.transform.position.y + cameraHeight,
-            followObject.transform.position.z - 10
+            followTransform.position.x,
+            followTransform.position.y + cameraHeight,
+            followTransform.position.z - 10
         );
-        transform.LookAt(followObject.transform); 
+        transform.LookAt(followTransform); 
     }
 }

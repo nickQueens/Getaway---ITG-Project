@@ -18,11 +18,18 @@ public class TireController : NetworkBehaviour
     private float suspensionRestDistance = 0.6f;
     private bool wheelsOnGround = false;
     private float rotationSpeed = 90;
-    private float maxSteerAngle = 22;
+    private float maxSteerAngle = 22; 
     public override void OnNetworkSpawn()
     {
         Debug.Log("Car spawned!");
         carRigidBody = GetComponent<Rigidbody>();
+
+        if (AINavAgent == null && IsOwner)
+        {
+            Debug.Log("Not AI");
+            GameObject.Find("FollowCamera").GetComponent<CameraController>().followTransform = transform;
+        }
+        
     }
 
     private void Update()

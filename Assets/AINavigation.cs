@@ -30,7 +30,6 @@ public class AINavigation : NetworkBehaviour
     {
         if (!IsServer) { return; }
         var allPlayers = GameObject.FindGameObjectsWithTag("Player");
-        Debug.Log(allPlayers);
 
         foreach (var player in allPlayers)
         {
