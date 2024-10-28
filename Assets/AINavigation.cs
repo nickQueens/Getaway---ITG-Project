@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.Intrinsics;
+using Unity.Netcode;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEditor.PlayerSettings;
 
-public class AINavigation : MonoBehaviour
+public class AINavigation : NetworkBehaviour
 {
     NavMeshAgent agent;
     private float maxDistanceFromParent = 50;
@@ -27,7 +28,9 @@ public class AINavigation : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (!IsServer) { return; }
         var allPlayers = GameObject.FindGameObjectsWithTag("Player");
+        Debug.Log(allPlayers);
 
         foreach (var player in allPlayers)
         {
