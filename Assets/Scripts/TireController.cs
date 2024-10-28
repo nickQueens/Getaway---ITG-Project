@@ -1,22 +1,26 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TireController : MonoBehaviour
+public class TireController : NetworkBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] private GameObject AINavAgent = null;
     public Component[] wheels;
     private Rigidbody carRigidBody;
     private float accelerationInput = 0;
+    private float horizontalInput = 0;
     private float suspensionRestDistance = 0.6f;
     private bool wheelsOnGround = false;
     private float rotationSpeed = 90;
-    void Start()
+    private float maxSteerAngle = 22;
+    public override void OnNetworkSpawn()
     {
+        Debug.Log("Car spawned!");
         carRigidBody = GetComponent<Rigidbody>();
     }
 
@@ -28,26 +32,14 @@ public class TireController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    [ServerRpc]
+    private void MovePlayerServerRpc(float accelerationInput, float horizontalInput)
     {
+        MovePlayer(accelerationInput, horizontalInput);
+    }
 
-        // 3 Forces on each tire
-        // Y: Damped spring
-        // X: Anti-slipping
-        // Z: Acceleration
-        if (AINavAgent == null)
-        {
-            accelerationInput = Input.GetAxis("Vertical");
-        } else
-        {
-            Vector3 forward = transform.TransformDirection(Vector3.forward);
-            Vector3 toOther = (AINavAgent.transform.position - transform.position).normalized;
-            float dotProduct = Vector3.Dot(forward, toOther);
-            accelerationInput = Mathf.Clamp(dotProduct, -0.2f, 0.6f);
-            //Debug.Log(accelerationInput);
-        }
-        wheelsOnGround = false;
+    private void MovePlayer(float accelerationInput, float horizontalInput)
+    {
         for (int i = 0; i < wheels.Length; i++)
         {
             float tireFriction = 0.8f;
@@ -67,21 +59,51 @@ public class TireController : MonoBehaviour
                 TireSteerForce(carRigidBody, wheels[i], tireFriction);
                 if (i < 2)
                 {
-                    TireForwardForce(carRigidBody, wheels[i]);
+                    TireForwardForce(accelerationInput, carRigidBody, wheels[i]);
+
+                    float steeringAngle = horizontalInput * maxSteerAngle;
+                    wheels[i].transform.localRotation = Quaternion.Euler(0, steeringAngle, 0);
                 }
                 wheelsOnGround = true;
             }
         }
+    }
 
-        if (!wheelsOnGround)
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (!IsOwner || !Application.isFocused) { return; }
+
+        // 3 Forces on each tire
+        // Y: Damped spring
+        // X: Anti-slipping
+        // Z: Acceleration
+        if (AINavAgent == null)
         {
-            Vector3 rotation = new Vector3(
-                Input.GetAxis("Vertical") * rotationSpeed * Time.deltaTime,
-                Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime,
-                0
-            );
-            transform.Rotate(rotation);
+            accelerationInput = Input.GetAxis("Vertical");
+            horizontalInput = Input.GetAxis("Horizontal");
+        } else
+        {
+            Vector3 forward = transform.TransformDirection(Vector3.forward);
+            Vector3 toOther = (AINavAgent.transform.position - transform.position).normalized;
+            float dotProduct = Vector3.Dot(forward, toOther);
+            accelerationInput = Mathf.Clamp(dotProduct, -0.2f, 0.6f);
+            //Debug.Log(accelerationInput);
         }
+
+        MovePlayerServerRpc(accelerationInput, horizontalInput);
+        wheelsOnGround = false;
+
+
+       // if (!wheelsOnGround)
+       // {
+          //  Vector3 rotation = new Vector3(
+         //       Input.GetAxis("Vertical") * rotationSpeed * Time.deltaTime,
+        //        Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime,
+      //          0
+     //       );
+    //        transform.Rotate(rotation);
+    //    }
     }
 
     private void TireSpringForce(Rigidbody carRigidBody, Component wheel, RaycastHit tireRayHit)
@@ -112,7 +134,7 @@ public class TireController : MonoBehaviour
         carRigidBody.AddForceAtPosition(desiredAcceleration * tireMass * steeringDirection, wheel.transform.position);
     }
 
-    private void TireForwardForce(Rigidbody carRigidBody, Component wheel)
+    private void TireForwardForce(float accelerationInput, Rigidbody carRigidBody, Component wheel)
     {
         Vector3 accelDir = wheel.transform.right;
         float carSpeed = Vector3.Dot(transform.forward, carRigidBody.velocity);

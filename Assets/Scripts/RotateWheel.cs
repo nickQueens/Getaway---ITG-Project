@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class RotateWheel : MonoBehaviour
+public class RotateWheel : NetworkBehaviour
 {
     [SerializeField] private GameObject AINavAgent = null;
     float maxSteerAngle = 22;
@@ -41,7 +42,7 @@ public class RotateWheel : MonoBehaviour
                 horizontalInput = -dotLeft; // Return the negative dot product with the left vector
             }
             Debug.Log(horizontalInput);
-        } else
+        } else if (IsOwner)
         {
             horizontalInput = Input.GetAxis("Horizontal");
         }
