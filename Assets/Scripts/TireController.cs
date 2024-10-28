@@ -95,15 +95,15 @@ public class TireController : NetworkBehaviour
         wheelsOnGround = false;
 
 
-       // if (!wheelsOnGround)
-       // {
-          //  Vector3 rotation = new Vector3(
-         //       Input.GetAxis("Vertical") * rotationSpeed * Time.deltaTime,
-        //        Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime,
-      //          0
-     //       );
-    //        transform.Rotate(rotation);
-    //    }
+        if (!wheelsOnGround && AINavAgent == null)
+        {
+            Vector3 rotation = new Vector3(
+                accelerationInput * rotationSpeed * Time.deltaTime,
+                horizontalInput * rotationSpeed * Time.deltaTime,
+                0
+            );
+            transform.Rotate(rotation);
+        }
     }
 
     private void TireSpringForce(Rigidbody carRigidBody, Component wheel, RaycastHit tireRayHit)
