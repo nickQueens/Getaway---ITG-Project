@@ -91,7 +91,7 @@ public class TireController : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!IsOwner || !Application.isFocused) { return; }
+        if (!IsOwner || (!Application.isFocused && AINavAgent == null)) { return; }
 
         // Get Input
         if (AINavAgent == null)
