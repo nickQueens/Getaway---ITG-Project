@@ -14,7 +14,15 @@ public class TireController : NetworkBehaviour
     private float suspensionRestDistance = 0.6f;
     private bool wheelsOnGround = false;
     private float rotationSpeed = 90;
-    private float maxSteerAngle = 22; 
+    private float maxSteerAngle = 22;
+
+    public void SetInputs(float accelerationInput, float horizontalInput, bool handbrakeOn)
+    {
+        this.accelerationInput = accelerationInput;
+        this.horizontalInput = horizontalInput;
+        this.handbrakeOn = handbrakeOn;
+    }
+
     public override void OnNetworkSpawn()
     {
         Debug.Log("Car spawned!");
@@ -92,9 +100,9 @@ public class TireController : NetworkBehaviour
         // Get Input
         if (AINavAgent == null)
         {
-            accelerationInput = Input.GetAxis("Vertical");
-            horizontalInput = Input.GetAxis("Horizontal");
-            handbrakeOn = Input.GetKey(KeyCode.Space);
+            //accelerationInput = Input.GetAxis("Vertical");
+            //horizontalInput = Input.GetAxis("Horizontal");
+            //handbrakeOn = Input.GetKey(KeyCode.Space);
         } else if (IsServer)
         {
             // AI Input
