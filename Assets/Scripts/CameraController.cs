@@ -7,6 +7,8 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
+        if (!followTransform ) { return; }
+
         transform.position = new Vector3
         (
             followTransform.position.x,
