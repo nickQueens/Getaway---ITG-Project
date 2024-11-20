@@ -17,6 +17,8 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!tireController.IsOwner || !Application.isFocused) { return; }
+
         accelerationInput = Input.GetAxis("Vertical");
         horizontalInput = Input.GetAxis("Horizontal");
         handbrakeOn = Input.GetKey(KeyCode.Space);
