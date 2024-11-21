@@ -25,12 +25,10 @@ public class TireController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        Debug.Log("Car spawned!");
         carRigidBody = GetComponent<Rigidbody>();
 
         if (!IsAI && IsOwner)
         {
-            Debug.Log("Not AI");
             GameObject.Find("FollowCamera").GetComponent<CameraController>().followTransform = transform;
         }
         
