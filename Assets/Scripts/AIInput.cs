@@ -1,55 +1,65 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class AIInput : MonoBehaviour
 {
-    private GameObject AINavAgent = null;
+    private Transform targetTransform = null;
+    private Vector3 targetPosition;
     private TireController tireController;
+
     private float accelerationInput;
     private float horizontalInput;
-    private bool handbrakeOn;
+    private bool handbrakeOn = false;
+
+    private float pursuitAcceleration = 0.6f;
+    private float reverseAcceleration = -0.4f;
+    private float reverseDistance = 9f;
+    private float turnThreshold = 0.05f;
 
     private void Awake()
     {
         tireController = GetComponent<TireController>();
-        AINavAgent = transform.parent.Find("NavAgent").gameObject;
+        targetTransform = transform.parent.Find("NavAgent");
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!tireController.IsServer) { return; }
 
-        // AI Input
-        // Acceleration
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 toOther = (AINavAgent.transform.position - transform.position).normalized;
-        float dotProduct = Vector3.Dot(forward, toOther);
-        accelerationInput = Mathf.Clamp(dotProduct, -0.2f, 0.6f);
+        targetPosition = targetTransform.position;
+        float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
 
-        // Horizontal
-        // Get the vector from the AI car to the player car
-        Vector3 toPlayer = AINavAgent.transform.position - transform.position;
 
-        // Normalize the vectors
-        toPlayer = toPlayer.normalized;
-        Vector3 aiCarForward = transform.forward.normalized;
-        Vector3 aiCarLeft = -transform.right.normalized;
+        Vector3 directionToTarget = (targetPosition - transform.position).normalized;
+        float dot = Vector3.Dot(transform.forward, directionToTarget);
 
-        // Take the dot product of the vectors
-        float dotForward = Vector3.Dot(toPlayer, aiCarForward);
-        float dotLeft = Vector3.Dot(toPlayer, aiCarLeft);
-
-        // Return a value between -1 and 1 based on the dot product
-        if (dotForward > 0) // Player car is in front of AI car
+        if (dot > 0)
         {
-            horizontalInput = dotLeft; // Return the dot product with the left vector
+            // Target in front
+            accelerationInput = pursuitAcceleration;
+        } else
+        {
+            // Target behind
+            if (distanceToTarget > reverseDistance)
+            {
+                accelerationInput = pursuitAcceleration;
+            }
+            else
+            {
+                accelerationInput = reverseAcceleration;
+            }
         }
-        else // Player car is behind AI car
+
+        float angleToDirection = Vector3.SignedAngle(transform.forward, directionToTarget, Vector3.up);
+        if (Mathf.Abs(dot) < (1 - turnThreshold))
         {
-            horizontalInput = -dotLeft; // Return the negative dot product with the left vector
+            if (angleToDirection > 0)
+            {
+                horizontalInput = 1 - dot;
+            }
+            else
+            {
+                horizontalInput = -1f;
+            }
         }
 
         tireController.SetInputs(accelerationInput, horizontalInput, handbrakeOn);

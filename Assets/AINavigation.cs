@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class AINavigation : NetworkBehaviour
 {
     NavMeshAgent agent;
-    private float maxDistanceFromParent = 50;
+    private float maxDistanceFromParent = 15;
     [SerializeField] GameObject targetObject;
     [SerializeField] GameObject parentObject;
     private float distanceToPlayer = float.PositiveInfinity;
