@@ -25,7 +25,7 @@ public class AIInput : MonoBehaviour
     private const float reverseDistance = 9f;
     private const float turnThreshold = 0.02f;
     private const float pursuitMaxSpeed = 25f;
-    private const float trafficMaxSpeed = 5f;
+    private const float trafficMaxSpeed = 6f;
 
     private float currentMaxSpeed;
     private float currentAcceleration;

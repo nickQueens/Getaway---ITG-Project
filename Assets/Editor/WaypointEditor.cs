@@ -39,6 +39,10 @@ public class WaypointEditor
             Vector3 offset = waypoint.transform.right * -waypoint.width / 2f;
             Vector3 offsetTo = waypoint.nextWaypoint.transform.right * -waypoint.nextWaypoint.width / 2f;
 
+            Vector3 toNext = waypoint.nextWaypoint.transform.position - waypoint.transform.position;
+            Vector3 arrowTo = waypoint.transform.position + (toNext * 0.25f);
+
+            Gizmos.DrawLine(waypoint.transform.position, arrowTo);
             Gizmos.DrawLine(waypoint.transform.position + offset, waypoint.nextWaypoint.transform.position + offsetTo);
         }
     }
