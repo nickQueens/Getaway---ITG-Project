@@ -30,7 +30,6 @@ public class TireController : NetworkBehaviour
         if (!IsAI && IsOwner)
         {
             GameObject.Find("FollowCamera").GetComponent<CameraController>().followTransform = transform;
-            Debug.Log("Finding camera");
         }
         
     }
