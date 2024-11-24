@@ -6,7 +6,7 @@ public class AIInput : MonoBehaviour
     private Transform targetTransform = null;
     private Vector3 targetPosition;
     private TireController tireController;
-    private Rigidbody rigidbody;
+    private new Rigidbody rigidbody;
 
     private float accelerationInput;
     private float horizontalInput;
@@ -15,9 +15,8 @@ public class AIInput : MonoBehaviour
     private const float pursuitAcceleration = 0.6f;
     private const float reverseAcceleration = -0.4f;
     private const float reverseDistance = 9f;
-    private const float turnThreshold = 0.05f;
-    private const float maxSpeed = 50f;
-    private const float speedSteeringReductionFactor = 0.5f;
+    private const float turnThreshold = 0.02f;
+    private const float maxSpeed = 30f;
 
     private void Awake()
     {
@@ -59,12 +58,34 @@ public class AIInput : MonoBehaviour
         float angleToDirection = Vector3.SignedAngle(transform.forward, directionToTarget, Vector3.up);
         if (Mathf.Abs(dot) < (1 - turnThreshold))
         {
-            horizontalInput = angleToDirection > 0 ? 1 - dot : -(1 - dot); 
+            float speedFactor = Mathf.Clamp01(rigidbody.velocity.magnitude / maxSpeed);
+            horizontalInput = angleToDirection > 0 ? 1 - (dot * speedFactor) : -(1 - (dot * speedFactor)); 
 
             horizontalInput = Mathf.Clamp(horizontalInput, -0.8f, 0.8f);
-            float speedFactor = Mathf.Clamp01(rigidbody.velocity.magnitude / maxSpeed); // Normalize speed
-            horizontalInput *= (1f - speedFactor * speedSteeringReductionFactor);
         }
+        else
+        {
+            horizontalInput = 0;
+        }
+
+        // (High) Add collison avoidance
+        // Use sphere/raycast to check for non-target objects ahead
+        // If obstacle within certain distance, use arc of raycasts to choose new steering angle
+        // Implement raycast cooldown, to allow steering to have effect
+
+        // (Medium) Add logic for if stuck in wall
+        // - Check collision
+        // - Reverse with no horizontal input for a certain time
+        // - Resume normal steering logic
+        // - Do opposite if trying to reverse into wall
+
+        // (Low) Add logic for deactivating after high-speed crashes
+        // - Check collision
+        // - If velocity over a certain threshold, deactivate
+        // - Higher threshold for car-on-car collisions
+
+        // The above means that we'll have 3 different movement scenarios, chasing, avoiding obstacles & reversing when stuck
+
 
         tireController.SetInputs(accelerationInput, horizontalInput, handbrakeOn);
     }
