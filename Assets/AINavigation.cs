@@ -10,8 +10,7 @@ public class AINavigation : NetworkBehaviour
     [SerializeField] GameObject parentObject;
     private float distanceToPlayer = float.PositiveInfinity;
     public Vector3 directionToTarget;
-    // Start is called before the first frame update
-    void Start()
+    private void Initialise()
     {
         agent = GetComponent<NavMeshAgent>();
         if (targetObject == null)
@@ -20,10 +19,17 @@ public class AINavigation : NetworkBehaviour
         }
     }
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        Initialise();
+    }
+
     // Update is called once per frame
     void LateUpdate()
     {
         if (!IsServer) { return; }
+        if (!transform.parent.GetComponent<NetworkObject>().IsSpawned || true) { return; }
         var allPlayers = GameObject.FindGameObjectsWithTag("Player");
 
         foreach (var player in allPlayers)

@@ -1,15 +1,16 @@
+using Unity.Netcode;
 using Unity.Netcode.Components;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class AIInput : MonoBehaviour
+public class AIInput : NetworkBehaviour
 {
     [SerializeField]
-    private bool isInPursuit = false;
+    public bool isInPursuit = false;
     [SerializeField]
-    private bool isTraffic = true;
+    public bool isTraffic = true;
     [SerializeField]
-    private Waypoint currentWaypoint;
+    public Waypoint currentWaypoint;
 
     private Transform targetTransform;
     private TireController tireController;
@@ -30,8 +31,7 @@ public class AIInput : MonoBehaviour
     private float currentMaxSpeed;
     private float currentAcceleration;
 
-
-    private void Awake()
+    private void Initialise()
     {
         tireController = GetComponent<TireController>();
         rigidbody = transform.GetComponent<Rigidbody>();
@@ -41,10 +41,15 @@ public class AIInput : MonoBehaviour
         currentMaxSpeed = isInPursuit ? pursuitMaxSpeed : trafficMaxSpeed;
         currentAcceleration = isInPursuit ? pursuitAcceleration : trafficAcceleration;
     }
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        Initialise();
+    }
 
     void FixedUpdate()
     {
-        if (!tireController.IsServer) { return; }
+        if (!NetworkManager.Singleton.IsServer) { return; }
 
         // (High) Add collison avoidance
         // Use sphere/raycast to check for non-target objects ahead
