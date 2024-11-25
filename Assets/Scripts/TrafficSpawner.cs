@@ -6,8 +6,6 @@ public class TrafficSpawner : MonoBehaviour
     [SerializeField] public GameObject trafficPrefab;
     public int carsToSpawn;
 
-    private WaitForSeconds _waitForSeconds = new WaitForSeconds(2f);
-
     public void Start()
     {
         NetworkManager.Singleton.OnServerStarted += SpawnTrafficStart;
@@ -29,8 +27,6 @@ public class TrafficSpawner : MonoBehaviour
         Transform childWaypoint = transform.GetChild(Random.Range(0, transform.childCount - 1));
 
         NetworkObject obj = NetworkObjectPool.Singleton.GetNetworkObject(trafficPrefab, childWaypoint.position, childWaypoint.rotation);
-        Debug.Log(obj);
-        Debug.Log(obj.GetComponentInChildren<AIInput>());
         obj.GetComponentInChildren<AIInput>().isTraffic = true;
         obj.GetComponentInChildren<AIInput>().isInPursuit = false;
         obj.GetComponentInChildren<AIInput>().currentWaypoint = childWaypoint.GetComponent<Waypoint>().nextWaypoint;
