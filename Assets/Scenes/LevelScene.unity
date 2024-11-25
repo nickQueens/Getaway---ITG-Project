@@ -8363,7 +8363,7 @@ Transform:
   m_GameObject: {fileID: 2038944517}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -37.6, y: 0.2, z: 21.5}
+  m_LocalPosition: {x: -37.6, y: 1, z: 21.5}
   m_LocalScale: {x: 3.135595, y: 1.0055462, z: 4.4}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8403,7 +8403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trafficPrefab: {fileID: 3176211857066667556, guid: b78eedddfe93d9c4f8ca552fba7d103c, type: 3}
-  carsToSpawn: 3
+  carsToSpawn: 1
 --- !u!114 &2038944520
 MonoBehaviour:
   m_ObjectHideFlags: 0

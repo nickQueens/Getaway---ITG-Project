@@ -13,10 +13,21 @@ public class AINavigation : NetworkBehaviour
     private void Initialise()
     {
         agent = GetComponent<NavMeshAgent>();
+        agent.enabled = false;
         if (targetObject == null)
         {
             targetObject = GameObject.Find("Player Car");
         }
+
+        if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 2.0f, NavMesh.AllAreas))
+        {
+            transform.position = hit.position;
+        }
+        else
+        {
+            Debug.LogError($"NavAgent on {transform.parent.name} couldn't find mesh.");
+        }
+        agent.enabled = true;
     }
 
     public override void OnNetworkSpawn()
@@ -29,7 +40,7 @@ public class AINavigation : NetworkBehaviour
     void LateUpdate()
     {
         if (!IsServer) { return; }
-        if (!transform.parent.GetComponent<NetworkObject>().IsSpawned || true) { return; }
+        if (!transform.parent.GetComponent<NetworkObject>().IsSpawned) { return; }
         var allPlayers = GameObject.FindGameObjectsWithTag("Player");
 
         foreach (var player in allPlayers)
