@@ -39,6 +39,7 @@ public class AIInput : NetworkBehaviour
     private const float turnThreshold = 0.02f;
     private const float pursuitMaxSpeed = 25f;
     private const float trafficMaxSpeed = 6f;
+    private const float junctionMaxSpeed = 2f;
 
     private float currentMaxSpeed;
     private float currentAcceleration;
@@ -151,6 +152,14 @@ public class AIInput : NetworkBehaviour
             if (shouldBranch)
             {
                 currentWaypoint = currentWaypoint.branches[Random.Range(0, currentWaypoint.branches.Count - 1)];
+            }
+
+            if (currentWaypoint.nextWaypoint.branches != null && currentWaypoint.nextWaypoint.branches.Count > 0)
+            {
+                currentMaxSpeed = junctionMaxSpeed;
+            } else
+            {
+                currentMaxSpeed = trafficMaxSpeed;
             }
 
             this.currentWaypoint = currentWaypoint.nextWaypoint;

@@ -88,6 +88,7 @@ public class WaypointManagerWindow : EditorWindow
 
         waypointObject.transform.position = selectedWaypoint.transform.position;
         waypointObject.transform.forward = selectedWaypoint.transform.forward;
+        waypointObject.GetComponent<Waypoint>().width = selectedWaypoint.width;
 
         if (selectedWaypoint.previousWaypoint != null)
         {
@@ -114,6 +115,7 @@ public class WaypointManagerWindow : EditorWindow
 
         waypointObject.transform.position = selectedWaypoint.transform.position;
         waypointObject.transform.forward = selectedWaypoint.transform.forward;
+        waypointObject.GetComponent<Waypoint>().width = selectedWaypoint.width;
 
         newWaypoint.previousWaypoint = selectedWaypoint;
 
@@ -155,10 +157,13 @@ public class WaypointManagerWindow : EditorWindow
         Waypoint waypoint = waypointObject.GetComponent<Waypoint>();
 
         Waypoint branchedFrom = Selection.activeGameObject.GetComponent<Waypoint>();
+        Debug.Log(branchedFrom);
+        Debug.Log(waypoint);
         branchedFrom.branches.Add(waypoint);
 
         waypoint.transform.position = branchedFrom.transform.position;
         waypoint.transform.forward = branchedFrom.transform.forward;
+        waypointObject.GetComponent<Waypoint>().width = branchedFrom.width;
 
         Selection.activeGameObject = waypoint.gameObject;
     }
