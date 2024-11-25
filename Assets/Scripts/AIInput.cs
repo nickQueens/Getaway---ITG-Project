@@ -141,6 +141,18 @@ public class AIInput : NetworkBehaviour
         float distance = Vector3.Distance(transform.position, currentWaypoint.transform.position);
         if (distance < currentWaypoint.width)
         {
+            bool shouldBranch = false;
+
+            if (currentWaypoint.branches != null && currentWaypoint.branches.Count > 0)
+            {
+                shouldBranch = Random.Range(0f, 1f) <= currentWaypoint.branchingChance;
+            }
+
+            if (shouldBranch)
+            {
+                currentWaypoint = currentWaypoint.branches[Random.Range(0, currentWaypoint.branches.Count - 1)];
+            }
+
             this.currentWaypoint = currentWaypoint.nextWaypoint;
             targetTransform = this.currentWaypoint.transform;
         }
