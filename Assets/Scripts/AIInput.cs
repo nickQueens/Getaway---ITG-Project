@@ -12,6 +12,18 @@ public class AIInput : NetworkBehaviour
     [SerializeField]
     public Waypoint currentWaypoint;
 
+    [ContextMenu("Start pursuit")]
+    private void TriggerStartPursuit()
+    {
+        StartPursuit();
+    }
+
+    [ContextMenu("End pursuit")]
+    private void TriggerEndPursuit()
+    {
+        EndPursuit();
+    }
+
     private Transform targetTransform;
     private TireController tireController;
     private new Rigidbody rigidbody;
@@ -69,8 +81,12 @@ public class AIInput : NetworkBehaviour
 
         // The above means that we'll have 3 different movement scenarios, chasing, avoiding obstacles & reversing when stuck
 
-        UpdateWaypoints(currentWaypoint);
         FollowTarget(targetTransform);
+
+        if (isTraffic)
+        {
+            UpdateWaypoints(currentWaypoint);
+        }
     }
 
     private void FollowTarget (Transform targetTransform)
@@ -128,5 +144,22 @@ public class AIInput : NetworkBehaviour
             this.currentWaypoint = currentWaypoint.nextWaypoint;
             targetTransform = this.currentWaypoint.transform;
         }
+    }
+
+    public void StartPursuit()
+    {
+        isInPursuit = true;
+        isTraffic = false;
+
+        targetTransform = transform.parent.Find("NavAgent");
+    }
+
+    public void EndPursuit()
+    {
+        isInPursuit = false;
+        isTraffic = true;
+
+        // ToDo: Start back as traffic from nearest waypoint
+        targetTransform = currentWaypoint.transform;
     }
 }
