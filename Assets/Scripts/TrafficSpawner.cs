@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -15,14 +16,10 @@ public class TrafficSpawner : MonoBehaviour
     {
         NetworkManager.Singleton.OnServerStarted -= SpawnTrafficStart;
 
-        for (int i = 0; i < carsToSpawn; i++)
-        {
-            SpawnTraffic();
-        }
-
+        StartCoroutine(SpawnTraffic());
     }
 
-    private void SpawnTraffic()
+    private void SpawnCar()
     {
         Transform childWaypoint = transform.GetChild(Random.Range(0, transform.childCount - 1));
 
@@ -33,23 +30,16 @@ public class TrafficSpawner : MonoBehaviour
         if (!obj.IsSpawned) { obj.Spawn(true); }
     }
 
-    //IEnumerator Spawn()
-    //{
-    //    int count = 0;
-    //    while (count < carsToSpawn)
-    //    {
-    //        //GameObject obj = NetworkManager.SpawnManager.(trafficPrefab);
-    //        //var objNetworkObject = obj.GetComponent<NetworkObject>();
-    //        //objNetworkObject.Spawn();
-    //        //Debug.Log(objNetworkObject);
-    //        //Transform child = transform.GetChild(Random.Range(0, transform.childCount - 1));
-    //        //objNetworkObject.GetComponent<AIInput>().currentWaypoint = child.GetComponent<Waypoint>();
-    //        //objNetworkObject.transform.position = child.position;
+    IEnumerator SpawnTraffic()
+    {
+        int count = 0;
+        while (count < carsToSpawn)
+        {
+            SpawnCar();
 
-    //        yield return new WaitForEndOfFrame();
-
-    //        count++;
-    //    }
-    //}
+            yield return new WaitForEndOfFrame();
+            count++;
+        }
+    }
 
 }
