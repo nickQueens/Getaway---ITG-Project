@@ -101,6 +101,7 @@ public class AIInput : NetworkBehaviour
         Vector3 directionToTarget = (targetPosition - transform.position).normalized;
         float dot = Vector3.Dot(transform.forward, directionToTarget);
 
+        int invertSteering = 1;
         // Need to model and control horizontal and acceleration inputs together,
         // For u-turns, reversing, etc.
         if (dot > 0)
@@ -119,6 +120,7 @@ public class AIInput : NetworkBehaviour
             else
             {
                 accelerationInput = reverseAcceleration;
+                invertSteering = -1;
             }
         }
         accelerationInput = rigidbody.velocity.magnitude >= currentMaxSpeed ? 0 : accelerationInput;
@@ -135,6 +137,7 @@ public class AIInput : NetworkBehaviour
         {
             horizontalInput = 0;
         }
+        horizontalInput *= invertSteering;
 
         tireController.SetInputs(accelerationInput, horizontalInput, handbrakeOn);
     }
@@ -157,7 +160,8 @@ public class AIInput : NetworkBehaviour
                 currentWaypoint = currentWaypoint.branches[Random.Range(0, currentWaypoint.branches.Count - 1)];
             }
 
-            if (currentWaypoint.nextWaypoint.branches != null && currentWaypoint.nextWaypoint.branches.Count > 0)
+            if ((currentWaypoint.nextWaypoint.branches != null && currentWaypoint.nextWaypoint.branches.Count > 0)
+                || currentWaypoint.branches != null && currentWaypoint.branches.Count > 0)
             {
                 currentMaxSpeed = junctionMaxSpeed;
             } else
