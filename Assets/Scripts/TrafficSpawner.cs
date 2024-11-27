@@ -33,7 +33,7 @@ public class TrafficSpawner : MonoBehaviour
         NetworkObject obj = NetworkObjectPool.Singleton.GetNetworkObject(trafficPrefab, childWaypoint.position, childWaypoint.rotation);
         obj.GetComponentInChildren<AIInput>().isTraffic = true;
         obj.GetComponentInChildren<AIInput>().isInPursuit = false;
-        obj.GetComponentInChildren<AIInput>().currentWaypoint = childWaypoint.GetComponent<Waypoint>().nextWaypoint;
+        obj.GetComponentInChildren<AIInput>().currentWaypoint = childWaypoint.GetComponent<Waypoint>();
         if (!obj.IsSpawned) { obj.Spawn(true); }
     }
 
