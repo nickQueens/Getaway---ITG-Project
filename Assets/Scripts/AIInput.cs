@@ -44,7 +44,7 @@ public class AIInput : NetworkBehaviour
     private const float trafficMaxSpeed = 6f;
     private const float junctionMaxSpeed = 2f;
     private const float pursuitStartDistance = 20f;
-    private const float pursuitEndDistance = 50f;
+    private const float pursuitEndDistance = 100f;
 
     private GameObject targetPlayer;
     private float distanceToPlayer = float.MaxValue;
