@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using Unity.VisualScripting;
@@ -5,6 +6,8 @@ using UnityEngine;
 
 public class AIInput : NetworkBehaviour
 {
+    [SerializeField]
+    public bool isPolice = false;
     [SerializeField]
     public bool isInPursuit = false;
     [SerializeField]
@@ -37,9 +40,14 @@ public class AIInput : NetworkBehaviour
     private const float reverseAcceleration = -0.4f;
     private const float reverseDistance = 9f;
     private const float turnThreshold = 0.02f;
-    private const float pursuitMaxSpeed = 25f;
+    private const float pursuitMaxSpeed = 15;
     private const float trafficMaxSpeed = 6f;
     private const float junctionMaxSpeed = 2f;
+    private const float pursuitStartDistance = 20f;
+    private const float pursuitEndDistance = 50f;
+
+    private GameObject targetPlayer;
+    private float distanceToPlayer = float.MaxValue;
 
     private float currentMaxSpeed;
     private float currentAcceleration;
@@ -87,6 +95,11 @@ public class AIInput : NetworkBehaviour
         if (isTraffic)
         {
             UpdateWaypoints(currentWaypoint);
+        }
+
+        if (isPolice)
+        {
+            StartOrEndPursuit();
         }
     }
 
@@ -174,6 +187,43 @@ public class AIInput : NetworkBehaviour
         }
     }
 
+    public void StartOrEndPursuit()
+    {
+        if (!isInPursuit)
+        {
+            var allPlayers = GameObject.FindGameObjectsWithTag("Player");
+            if (allPlayers != null && allPlayers.Length > 0)
+            {
+                foreach (var player in allPlayers)
+                {
+                    var d = Vector3.Distance(player.transform.position,transform.position);
+                    Debug.Log("Distance to player: " + d);
+                    if (d < distanceToPlayer)
+                    {
+                        targetPlayer = player;
+                        distanceToPlayer = d;
+                    }
+                }
+                if (distanceToPlayer < pursuitStartDistance)
+                {
+                    Debug.Log(allPlayers.Length);
+                    Debug.Log(allPlayers);
+                    Debug.Log(targetPlayer.name);
+                    Debug.Log(distanceToPlayer);
+                    StartPursuit();
+                }
+            }
+        }
+        else
+        {
+            distanceToPlayer = Vector3.Distance(targetPlayer.transform.position, transform.position);
+            if (distanceToPlayer > pursuitEndDistance)
+            {
+                EndPursuit();
+            }
+        }
+    }
+
     public void StartPursuit()
     {
         isInPursuit = true;
@@ -193,7 +243,20 @@ public class AIInput : NetworkBehaviour
         currentMaxSpeed = trafficMaxSpeed;
         currentAcceleration = trafficAcceleration;
 
-        // ToDo: Start back as traffic from nearest waypoint
-        targetTransform = currentWaypoint.transform;
+        List<Waypoint> availableWaypoints = new List<Waypoint>(FindObjectsByType<Waypoint>(FindObjectsSortMode.None));
+        float distanceToClosestWaypoint = float.MaxValue;
+        Waypoint closestWaypoint = null;
+        foreach (Waypoint waypoint in availableWaypoints)
+        {
+            float d = (transform.position - waypoint.transform.position).sqrMagnitude;
+
+            if (d < distanceToClosestWaypoint)
+            {
+                closestWaypoint = waypoint;
+                distanceToPlayer = d;
+            }
+        }
+
+        targetTransform = closestWaypoint.transform;
     }
 }
