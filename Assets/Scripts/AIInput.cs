@@ -101,6 +101,8 @@ public class AIInput : NetworkBehaviour
         Vector3 directionToTarget = (targetPosition - transform.position).normalized;
         float dot = Vector3.Dot(transform.forward, directionToTarget);
 
+        // Need to model and control horizontal and acceleration inputs together,
+        // For u-turns, reversing, etc.
         if (dot > 0)
         {
             // Target in front
@@ -112,6 +114,7 @@ public class AIInput : NetworkBehaviour
             if (distanceToTarget > reverseDistance)
             {
                 accelerationInput = currentAcceleration;
+                // If target is behind and not reversing, ie. u-turn, need to make horizontal input full 1 or -1
             }
             else
             {
@@ -172,6 +175,9 @@ public class AIInput : NetworkBehaviour
         isInPursuit = true;
         isTraffic = false;
 
+        currentMaxSpeed = pursuitMaxSpeed;
+        currentAcceleration = pursuitAcceleration;
+
         targetTransform = transform.parent.Find("NavAgent");
     }
 
@@ -179,6 +185,9 @@ public class AIInput : NetworkBehaviour
     {
         isInPursuit = false;
         isTraffic = true;
+
+        currentMaxSpeed = trafficMaxSpeed;
+        currentAcceleration = trafficAcceleration;
 
         // ToDo: Start back as traffic from nearest waypoint
         targetTransform = currentWaypoint.transform;
