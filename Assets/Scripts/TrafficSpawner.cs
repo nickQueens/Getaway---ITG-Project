@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TrafficSpawner : MonoBehaviour
 {
-    [SerializeField] public GameObject trafficPrefab;
+    [SerializeField] public List<GameObject> trafficPrefabs;
     public int carsToSpawn;
 
     private List<Waypoint> availableWaypoints;
@@ -25,12 +25,14 @@ public class TrafficSpawner : MonoBehaviour
 
     private void SpawnCar()
     {
-        int waypointIndex = Random.Range(0, availableWaypoints.Count - 1);
+        int waypointIndex = Random.Range(0, availableWaypoints.Count);
         Transform childWaypoint = availableWaypoints[waypointIndex].transform;
 
         availableWaypoints.RemoveAt(waypointIndex);
 
-        NetworkObject obj = NetworkObjectPool.Singleton.GetNetworkObject(trafficPrefab, childWaypoint.position, childWaypoint.rotation);
+        int trafficPrefabIndex = Random.Range(0, trafficPrefabs.Count);
+
+        NetworkObject obj = NetworkObjectPool.Singleton.GetNetworkObject(trafficPrefabs[trafficPrefabIndex], childWaypoint.position, childWaypoint.rotation);
         obj.GetComponentInChildren<AIInput>().isTraffic = true;
         obj.GetComponentInChildren<AIInput>().isInPursuit = false;
         obj.GetComponentInChildren<AIInput>().currentWaypoint = childWaypoint.GetComponent<Waypoint>();

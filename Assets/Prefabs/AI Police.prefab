@@ -638,6 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 003219b85952e7d4ba0836bde0d4a406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPolice: 1
   isInPursuit: 0
   isTraffic: 1
   currentWaypoint: {fileID: 0}
