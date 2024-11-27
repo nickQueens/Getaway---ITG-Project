@@ -62,7 +62,6 @@ public class AINavigation : NetworkBehaviour
             agent.SetDestination(parentObject.transform.position);
         }
         directionToTarget = (targetObject.transform.position - transform.position).normalized;
-        Debug.DrawLine(transform.position, directionToTarget);
         transform.LookAt(targetObject.transform.position);
     }
 }
