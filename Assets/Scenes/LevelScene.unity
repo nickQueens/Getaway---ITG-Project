@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previousWaypoint: {fileID: 1677804271}
-  nextWaypoint: {fileID: 0}
+  nextWaypoint: {fileID: 560694486}
   width: 2
   branches: []
   branchingChance: 0.5
@@ -5111,7 +5111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b313c9693857474cbbc04febe468ea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousWaypoint: {fileID: 1871449334}
+  previousWaypoint: {fileID: 0}
   nextWaypoint: {fileID: 1677804271}
   width: 2
   branches: []
@@ -5280,7 +5280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trafficPrefabs:
   - {fileID: 1719340217113464625, guid: b35ea6b6ce2b9844f95ed6c71327477a, type: 3}
-  - {fileID: 3176211857066667556, guid: b78eedddfe93d9c4f8ca552fba7d103c, type: 3}
+  - {fileID: 1719340217113464625, guid: 750ebf55e8c319e4a8af13fb98e563e1, type: 3}
   carsToSpawn: 5
 --- !u!1001 &536061897
 PrefabInstance:
@@ -7407,55 +7407,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 560955475}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &809141575
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 809141577}
-  - component: {fileID: 809141576}
-  m_Layer: 0
-  m_Name: Waypoint 8
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &809141576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 809141575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b313c9693857474cbbc04febe468ea9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  previousWaypoint: {fileID: 971435532}
-  nextWaypoint: {fileID: 2102501948}
-  width: 2
-  branches: []
-  branchingChance: 0.5
---- !u!4 &809141577
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 809141575}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: -0.00000017881393}
-  m_LocalPosition: {x: -10.25, y: 0, z: -1.5175003}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1698294512}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &811074739
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9302,7 +9253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previousWaypoint: {fileID: 841571350}
-  nextWaypoint: {fileID: 809141576}
+  nextWaypoint: {fileID: 0}
   width: 2
   branches: []
   branchingChance: 0.5
@@ -15956,9 +15907,6 @@ PrefabInstance:
       addedObject: {fileID: 509500356}
     - targetCorrespondingSourceObject: {fileID: 423198, guid: ad182cc030f80d2418924040efeaaedb, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1871449333}
-    - targetCorrespondingSourceObject: {fileID: 423198, guid: ad182cc030f80d2418924040efeaaedb, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 98603122}
     - targetCorrespondingSourceObject: {fileID: 423198, guid: ad182cc030f80d2418924040efeaaedb, type: 3}
       insertIndex: -1
@@ -16642,9 +16590,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 423198, guid: ad182cc030f80d2418924040efeaaedb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 971435533}
-    - targetCorrespondingSourceObject: {fileID: 423198, guid: ad182cc030f80d2418924040efeaaedb, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 809141577}
     - targetCorrespondingSourceObject: {fileID: 423198, guid: ad182cc030f80d2418924040efeaaedb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 629509677}
@@ -18130,55 +18075,6 @@ MonoBehaviour:
   - {fileID: 344417002}
   - {fileID: 1220904935}
   branchingChance: 0.25
---- !u!1 &1871449332
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1871449333}
-  - component: {fileID: 1871449334}
-  m_Layer: 0
-  m_Name: Waypoint 0
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1871449333
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1871449332}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.5, y: 0, z: -1.5175004}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1651914873}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1871449334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1871449332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b313c9693857474cbbc04febe468ea9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  previousWaypoint: {fileID: 1441087532}
-  nextWaypoint: {fileID: 524036933}
-  width: 2
-  branches: []
-  branchingChance: 0.5
 --- !u!1001 &1873525898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19899,9 +19795,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PooledPrefabsList:
   - Prefab: {fileID: 3176211857066667556, guid: b78eedddfe93d9c4f8ca552fba7d103c, type: 3}
-    PrewarmCount: 10
+    PrewarmCount: 5
   - Prefab: {fileID: 1719340217113464625, guid: b35ea6b6ce2b9844f95ed6c71327477a, type: 3}
-    PrewarmCount: 10
+    PrewarmCount: 12
+  - Prefab: {fileID: 1719340217113464625, guid: 750ebf55e8c319e4a8af13fb98e563e1, type: 3}
+    PrewarmCount: 12
 --- !u!1 &2043893925
 GameObject:
   m_ObjectHideFlags: 0
@@ -20159,7 +20057,13 @@ MonoBehaviour:
   trafficPrefabs:
   - {fileID: 1719340217113464625, guid: b35ea6b6ce2b9844f95ed6c71327477a, type: 3}
   - {fileID: 3176211857066667556, guid: b78eedddfe93d9c4f8ca552fba7d103c, type: 3}
+  - {fileID: 1719340217113464625, guid: 750ebf55e8c319e4a8af13fb98e563e1, type: 3}
   - {fileID: 1719340217113464625, guid: b35ea6b6ce2b9844f95ed6c71327477a, type: 3}
+  - {fileID: 3176211857066667556, guid: b78eedddfe93d9c4f8ca552fba7d103c, type: 3}
+  - {fileID: 1719340217113464625, guid: b35ea6b6ce2b9844f95ed6c71327477a, type: 3}
+  - {fileID: 1719340217113464625, guid: 750ebf55e8c319e4a8af13fb98e563e1, type: 3}
+  - {fileID: 1719340217113464625, guid: b35ea6b6ce2b9844f95ed6c71327477a, type: 3}
+  - {fileID: 1719340217113464625, guid: 750ebf55e8c319e4a8af13fb98e563e1, type: 3}
   carsToSpawn: 10
 --- !u!1001 &2086511504
 PrefabInstance:
@@ -20389,7 +20293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b313c9693857474cbbc04febe468ea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previousWaypoint: {fileID: 809141576}
+  previousWaypoint: {fileID: 1390109147}
   nextWaypoint: {fileID: 35256301}
   width: 2
   branches: []
