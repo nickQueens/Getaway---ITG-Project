@@ -1,11 +1,11 @@
 using Unity.Netcode;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TireController : NetworkBehaviour
 {
-    // Start is called before the first frame update
-    [SerializeField] private GameObject AINavAgent = null;
+    [SerializeField] private bool IsAI = false;
     public Component[] wheels;
     private Rigidbody carRigidBody;
     private float accelerationInput = 0;
@@ -14,15 +14,21 @@ public class TireController : NetworkBehaviour
     private float suspensionRestDistance = 0.6f;
     private bool wheelsOnGround = false;
     private float rotationSpeed = 90;
-    private float maxSteerAngle = 22; 
+    private float maxSteerAngle = 22;
+
+    public void SetInputs(float accelerationInput, float horizontalInput, bool handbrakeOn)
+    {
+        this.accelerationInput = accelerationInput;
+        this.horizontalInput = horizontalInput;
+        this.handbrakeOn = handbrakeOn;
+    }
+
     public override void OnNetworkSpawn()
     {
-        Debug.Log("Car spawned!");
         carRigidBody = GetComponent<Rigidbody>();
 
-        if (AINavAgent == null && IsOwner)
+        if (!IsAI && IsOwner)
         {
-            Debug.Log("Not AI");
             GameObject.Find("FollowCamera").GetComponent<CameraController>().followTransform = transform;
         }
         
@@ -73,7 +79,7 @@ public class TireController : NetworkBehaviour
             }
         }
 
-        if (!wheelsOnGround && AINavAgent == null)
+        if (!wheelsOnGround && !IsAI)
         {
             Vector3 rotation = new Vector3(
                 accelerationInput * rotationSpeed * Time.deltaTime,
@@ -87,46 +93,7 @@ public class TireController : NetworkBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!IsOwner || (!Application.isFocused && AINavAgent == null)) { return; }
-
-        // Get Input
-        if (AINavAgent == null)
-        {
-            accelerationInput = Input.GetAxis("Vertical");
-            horizontalInput = Input.GetAxis("Horizontal");
-            handbrakeOn = Input.GetKey(KeyCode.Space);
-        } else if (IsServer)
-        {
-            // AI Input
-            // Acceleration
-            Vector3 forward = transform.TransformDirection(Vector3.forward);
-            Vector3 toOther = (AINavAgent.transform.position - transform.position).normalized;
-            float dotProduct = Vector3.Dot(forward, toOther);
-            accelerationInput = Mathf.Clamp(dotProduct, -0.2f, 0.6f);
-
-            // Horizontal
-            // Get the vector from the AI car to the player car
-            Vector3 toPlayer = AINavAgent.transform.position - transform.position;
-
-            // Normalize the vectors
-            toPlayer = toPlayer.normalized;
-            Vector3 aiCarForward = transform.forward.normalized;
-            Vector3 aiCarLeft = -transform.right.normalized;
-
-            // Take the dot product of the vectors
-            float dotForward = Vector3.Dot(toPlayer, aiCarForward);
-            float dotLeft = Vector3.Dot(toPlayer, aiCarLeft);
-
-            // Return a value between -1 and 1 based on the dot product
-            if (dotForward > 0) // Player car is in front of AI car
-            {
-                horizontalInput = dotLeft; // Return the dot product with the left vector
-            }
-            else // Player car is behind AI car
-            {
-                horizontalInput = -dotLeft; // Return the negative dot product with the left vector
-            }
-        }
+        if ((!IsServer && IsAI) || (!IsAI && !IsOwner)) { return; }
 
         MovePlayerServerRpc(accelerationInput, horizontalInput, handbrakeOn);
     }
