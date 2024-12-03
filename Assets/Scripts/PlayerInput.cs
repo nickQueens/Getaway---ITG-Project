@@ -23,5 +23,10 @@ public class PlayerInput : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         handbrakeOn = Input.GetKey(KeyCode.Space);
         tireController.SetInputs(accelerationInput, horizontalInput, handbrakeOn);
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Screen.fullScreen = !Screen.fullScreen;
+        }
     }
 }
