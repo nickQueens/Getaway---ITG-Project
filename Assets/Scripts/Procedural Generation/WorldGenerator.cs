@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using static Tile;
 
@@ -49,7 +50,7 @@ public class WorldGenerator : MonoBehaviour
 
         cells[(int)startingCell.x][(int)startingCell.y] =
             new Cell(initialTilePrefab.GetComponent<Tile>(), initialTilePrefab, new List<GameObject>());
-        GameObject startingTile = Instantiate(initialTilePrefab);
+        GameObject startingTile = Instantiate(initialTilePrefab, transform);
         startingTile.transform.position = startingCellPosition;
         startingTile.SetActive(true);
         cellsFilled++;
@@ -128,7 +129,7 @@ public class WorldGenerator : MonoBehaviour
             GameObject chosenTilePrefab = potentialPrefabs[Random.Range(0, potentialPrefabs.Count)];
             Vector3 newTilePosition =
                 new Vector3(transform.position.x + (newTileX * tileLength), 0, transform.position.z + (newTileZ * tileLength));
-            GameObject newTile = Instantiate(chosenTilePrefab);
+            GameObject newTile = Instantiate(chosenTilePrefab, transform);
             newTile.transform.position = newTilePosition;
             newTile.SetActive(true);
 

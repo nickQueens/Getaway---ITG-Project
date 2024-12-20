@@ -19,6 +19,7 @@ public class TrafficSpawner : MonoBehaviour
 
     private void SpawnTrafficStart()
     {
+        Debug.Log("Spawning traffic");
         NetworkManager.Singleton.OnServerStarted -= SpawnTrafficStart;
 
         StartCoroutine(SpawnTraffic());
@@ -27,6 +28,7 @@ public class TrafficSpawner : MonoBehaviour
     IEnumerator SpawnTraffic()
     {
         availableWaypoints = new List<Waypoint>(transform.GetComponentsInChildren<Waypoint>());
+        Debug.Log(availableWaypoints.Count);
         int count = 0;
         while (count < carsToSpawn)
         {
