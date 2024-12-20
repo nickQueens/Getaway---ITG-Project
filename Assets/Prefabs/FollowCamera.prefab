@@ -105,5 +105,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12296f7a5079eda4c98e82d2067f356d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followObject: {fileID: 0}
+  followTransform: {fileID: 0}
   cameraHeight: 12
