@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,6 +7,7 @@ public class WaypointEditor
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected | GizmoType.Pickable)]
     public static void OnDrawSceneGizmo(Waypoint waypoint, GizmoType gizmoType)
     {
+        return;
         if ((gizmoType & GizmoType.Selected) != 0)
         {
             Gizmos.color = Color.yellow;

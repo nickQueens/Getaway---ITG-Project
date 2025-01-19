@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using Unity.Netcode;
 using UnityEngine;
 using static Tile;
@@ -14,6 +15,8 @@ public class WorldGenerator : MonoBehaviour
     public Vector2 startingCell;
 
     private int cellsFilled = 0;
+
+    public NavMeshSurface navMeshSurface;
 
     void Start()
     {
@@ -139,6 +142,8 @@ public class WorldGenerator : MonoBehaviour
 
         Debug.Log(cells);
 
+        BuildNavMesh();
+
     }
 
     TerrainType? GetNeighbouringTile(Cell?[][] cells, int x, int y, int direction)
@@ -221,5 +226,11 @@ public class WorldGenerator : MonoBehaviour
         }
 
         return newRotatedTiles;
+    }
+
+    public void BuildNavMesh()
+    {
+        navMeshSurface.BuildNavMesh();
+        Debug.Log("NavMesh built!");
     }
 }
