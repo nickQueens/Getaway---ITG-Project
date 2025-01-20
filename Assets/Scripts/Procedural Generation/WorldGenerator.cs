@@ -20,6 +20,17 @@ public class WorldGenerator : MonoBehaviour
 
     void Start()
     {
+
+        // Call coroutine here
+
+        StartCoroutine(FillCells());
+
+        BuildNavMesh();
+
+    }
+
+    IEnumerator FillCells()
+    {
         int numberOfCells = (int)(gridSize.x * gridSize.y);
         Cell?[][] cells = new Cell?[(int)gridSize.x][];
         for (int i = 0; i < gridSize.x; i++)
@@ -59,9 +70,6 @@ public class WorldGenerator : MonoBehaviour
         cellsFilled++;
 
         Debug.Log(cells[(int)startingCell.x][(int)startingCell.y]?.tilePrefab.name);
-
-        Debug.Log("Looping through rest of cells");
-
         while (cellsFilled < numberOfCells)
         {
             // Loop through all cells
@@ -138,12 +146,11 @@ public class WorldGenerator : MonoBehaviour
 
             cells[newTileX][newTileZ] = new Cell(chosenTilePrefab.GetComponent<Tile>(), chosenTilePrefab, new List<GameObject>());
             cellsFilled++;
+
+            float interval = 0.5f * Mathf.Pow(2.71f, -0.07f * cellsFilled);
+
+            yield return new WaitForSeconds(interval);
         }
-
-        Debug.Log(cells);
-
-        BuildNavMesh();
-
     }
 
     TerrainType? GetNeighbouringTile(Cell?[][] cells, int x, int y, int direction)

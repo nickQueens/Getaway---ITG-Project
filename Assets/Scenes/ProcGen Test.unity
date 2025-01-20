@@ -871,7 +871,7 @@ MonoBehaviour:
   - {fileID: 6244564643147811833, guid: 77ab545b421cfd94ca5d0ff722518099, type: 3}
   - {fileID: 7054520072353850638, guid: ef8479a8b092fd541be5920c5bdd6777, type: 3}
   - {fileID: 4911526344264530385, guid: 291a34b76ca1d274b82578a3d33943cc, type: 3}
-  gridSize: {x: 7, y: 7}
+  gridSize: {x: 21, y: 11}
   startingCell: {x: 0, y: 0}
   navMeshSurface: {fileID: 1941045127}
 --- !u!4 &1941045125
@@ -910,7 +910,7 @@ MonoBehaviour:
   - {fileID: 1719340217113464625, guid: b35ea6b6ce2b9844f95ed6c71327477a, type: 3}
   - {fileID: 1719340217113464625, guid: b35ea6b6ce2b9844f95ed6c71327477a, type: 3}
   policeCarPrefab: {fileID: 3176211857066667556, guid: b78eedddfe93d9c4f8ca552fba7d103c, type: 3}
-  carsToSpawn: 20
+  carsToSpawn: 50
 --- !u!114 &1941045127
 MonoBehaviour:
   m_ObjectHideFlags: 0
